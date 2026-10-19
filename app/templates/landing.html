@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}TaskFlow — Find your flow{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow"><span class="eyebrow-dot"></span> A calmer way to get things done</p>
+    <h1>Big goals.<br><span>Clear next steps.</span></h1>
+    <p class="hero-description">Bring your to-dos into focus. TaskFlow gives you a simple, thoughtful space to plan your day and make progress that feels good.</p>
+    <div class="hero-actions">
+      <a class="button button-primary button-large" href="{{ url_for('main.dashboard') }}">Get started for free <span aria-hidden="true">→</span></a>
+      <a class="text-link" href="#features">See how it works <span aria-hidden="true">↓</span></a>
+    </div>
+    <div class="hero-note"><span class="avatar-stack" aria-hidden="true"><i>J</i><i>M</i><i>A</i></span><span>Less overwhelm, one task at a time.</span></div>
+  </div>
+  <div class="hero-visual" aria-label="TaskFlow dashboard preview">
+    <div class="visual-glow"></div>
+    <div class="preview-card">
+      <div class="preview-top"><div><span class="preview-kicker">MONDAY, OCTOBER 20</span><h2>Your day, in focus</h2></div><span class="preview-menu" aria-hidden="true">···</span></div>
+      <div class="preview-progress"><span>Daily progress</span><strong>2 of 4</strong><div class="progress-track"><i></i></div></div>
+      <div class="preview-task task-done"><span class="check-circle">✓</span><div><strong>Review project brief</strong><small>Product launch</small></div><span class="priority-dot green"></span></div>
+      <div class="preview-task task-done"><span class="check-circle">✓</span><div><strong>Send weekly update</strong><small>Team &amp; planning</small></div><span class="priority-dot orange"></span></div>
+      <div class="preview-task"><span class="empty-circle"></span><div><strong>Sketch new ideas</strong><small>Creative work</small></div><span class="priority-dot purple"></span></div>
+      <div class="preview-task"><span class="empty-circle"></span><div><strong>Plan tomorrow</strong><small>Personal</small></div><span class="priority-dot blue"></span></div>
+      <div class="preview-foot"><span class="sparkle">✦</span> Every small step counts.</div>
+    </div>
+    <div class="floating-note"><span class="floating-icon">✦</span><span><strong>You're on a roll!</strong><small>Keep the momentum going</small></span></div>
+    <div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
+  </div>
+</section>
+
+<section class="trust-strip" aria-label="Product benefits"><span>LESS BUSYWORK</span><i></i><span>MORE MEANINGFUL PROGRESS</span><i></i><span>YOUR PACE, YOUR FLOW</span></section>
+
+<section class="features-section" id="features">
+  <div class="section-heading">
+    <p class="eyebrow">A little more clarity</p>
+    <h2>Everything you need.<br><span>Nothing you don't.</span></h2>
+    <p>Good planning shouldn't take more time than the work itself. TaskFlow keeps it refreshingly simple.</p>
+  </div>
+  <div class="feature-grid">
+    <article class="feature-card"><div class="feature-icon icon-lilac" aria-hidden="true">◎</div><h3>See the whole picture</h3><p>Keep all your tasks in one clear view, with the details and deadlines that help you move forward.</p><span class="feature-number">01</span></article>
+    <article class="feature-card"><div class="feature-icon icon-peach" aria-hidden="true">↗</div><h3>Focus on what matters</h3><p>Set priorities, find the next right thing, and spend less energy deciding where to begin.</p><span class="feature-number">02</span></article>
+    <article class="feature-card"><div class="feature-icon icon-mint" aria-hidden="true">✳</div><h3>Celebrate your progress</h3><p>Every checked-off task is a step closer. See your momentum build, one small win at a time.</p><span class="feature-number">03</span></article>
+  </div>
+</section>
+
+<section class="closing-cta">
+  <div class="cta-decoration" aria-hidden="true">✳</div>
+  <p class="eyebrow">Your next chapter starts here</p>
+  <h2>Ready to find your flow?</h2>
+  <p>Start with one task. See where it takes you.</p>
+  <a class="button button-light button-large" href="{{ url_for('main.dashboard') }}">Open your dashboard <span aria-hidden="true">→</span></a>
+</section>
+{% endblock %}

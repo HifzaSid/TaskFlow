@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — TaskFlow{% endblock %}
+{% block content %}
+<section class="dashboard-page">
+  <div class="dashboard-heading">
+    <div><p class="eyebrow">YOUR WORKSPACE</p><h1>Good things happen<br class="mobile-break"> <span>one task at a time.</span></h1><p>Make a little progress today. It adds up.</p></div>
+    <a class="button button-primary" href="{{ url_for('main.new_task') }}"><span aria-hidden="true">＋</span> Add a task</a>
+  </div>
+
+  <div class="stats-grid" aria-label="Task statistics">
+    <article class="stat-card"><span class="stat-icon stat-purple" aria-hidden="true">▦</span><span class="stat-label">All tasks</span><strong>{{ stats.total }}</strong><span class="stat-caption">in your workspace</span></article>
+    <article class="stat-card"><span class="stat-icon stat-blue" aria-hidden="true">○</span><span class="stat-label">To do</span><strong>{{ stats.pending }}</strong><span class="stat-caption">ready when you are</span></article>
+    <article class="stat-card"><span class="stat-icon stat-orange" aria-hidden="true">◷</span><span class="stat-label">In progress</span><strong>{{ stats.in_progress }}</strong><span class="stat-caption">currently underway</span></article>
+    <article class="stat-card"><span class="stat-icon stat-green" aria-hidden="true">✓</span><span class="stat-label">Completed</span><strong>{{ stats.completed }}</strong><span class="stat-caption">you made it happen</span></article>
+  </div>
+
+  <section class="task-panel" aria-labelledby="task-list-title">
+    <div class="task-panel-heading"><div><p class="eyebrow">YOUR TASKS</p><h2 id="task-list-title">A clear path forward</h2></div><span class="task-count">{{ tasks|length }} shown</span></div>
+    <form class="filter-form" method="get" action="{{ url_for('main.dashboard') }}">
+      <label class="search-field"><span class="sr-only">Search tasks</span><span aria-hidden="true">⌕</span><input type="search" name="q" value="{{ search }}" placeholder="Search your tasks"></label>
+      <label><span class="sr-only">Filter by status</span><select name="status"><option value="">All statuses</option>{% for value in ('pending', 'in_progress', 'completed') %}<option value="{{ value }}" {% if selected_status == value %}selected{% endif %}>{{ value|replace('_', ' ')|title }}</option>{% endfor %}</select></label>
+      <label><span class="sr-only">Filter by priority</span><select name="priority"><option value="">All priorities</option>{% for value in ('high', 'medium', 'low') %}<option value="{{ value }}" {% if selected_priority == value %}selected{% endif %}>{{ value|title }} priority</option>{% endfor %}</select></label>
+      <button class="button button-filter" type="submit">Filter</button>
+      {% if search or selected_status or selected_priority %}<a class="clear-filters" href="{{ url_for('main.dashboard') }}">Clear</a>{% endif %}
+    </form>
+
+    {% if tasks %}
+      <div class="task-list">
+        {% for task in tasks %}
+          <article class="task-row {% if task.status == 'completed' %}task-row-complete{% endif %}">
+            <form method="post" action="{{ url_for('main.complete_task', task_id=task.id) }}">
+              <input type="hidden" name="completed" value="{{ 'false' if task.status == 'completed' else 'true' }}">
+              <button class="task-check {% if task.status == 'completed' %}is-checked{% endif %}" type="submit" aria-label="{{ 'Reopen' if task.status == 'completed' else 'Complete' }} {{ task.title }}">{% if task.status == 'completed' %}✓{% endif %}</button>
+            </form>
+            <div class="task-main"><h3>{{ task.title }}</h3>{% if task.description %}<p>{{ task.description }}</p>{% endif %}<div class="task-meta">
+              <span class="status-pill status-{{ task.status }}">{{ task.status|replace('_', ' ')|title }}</span>
+              <span class="priority-label priority-{{ task.priority }}"><i></i>{{ task.priority|title }}</span>
+              {% if task.due_date %}<span class="due-date {% if task.due_date < today and task.status != 'completed' %}overdue{% endif %}">Due {{ task.due_date|replace('-', '/') }}</span>{% endif %}
+            </div></div>
+            <div class="task-actions"><a href="{{ url_for('main.edit_task', task_id=task.id) }}" aria-label="Edit {{ task.title }}">Edit</a><form method="post" action="{{ url_for('main.remove_task', task_id=task.id) }}" data-confirm="Delete this task? This cannot be undone."><button type="submit">Delete</button></form></div>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state"><span class="empty-state-icon" aria-hidden="true">✳</span><h3>{% if search or selected_status or selected_priority %}No tasks match those filters.{% else %}A fresh start.{% endif %}</h3><p>{% if search or selected_status or selected_priority %}Try another search or clear your filters to see all tasks.{% else %}Add a task and take the first small step toward something great.{% endif %}</p>{% if search or selected_status or selected_priority %}<a class="button button-outline" href="{{ url_for('main.dashboard') }}">Clear filters</a>{% else %}<a class="button button-primary" href="{{ url_for('main.new_task') }}">Create your first task</a>{% endif %}</div>
+    {% endif %}
+  </section>
+  <p class="dashboard-note"><span aria-hidden="true">✦</span> Progress isn't always a straight line. You're doing just fine.</p>
+</section>
+{% endblock %}

@@ -1,0 +1,19 @@
+# Python environments and bytecode
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Test and tool caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local databases and runtime files
+instance/*.sqlite
+instance/*.sqlite3
+instance/*.db
+*.log
+
+# Generated package metadata
+*.egg-info/

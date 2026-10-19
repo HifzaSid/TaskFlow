@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit task' if task else 'New task' }} — TaskFlow{% endblock %}
+{% block content %}
+<section class="form-page">
+  <a class="back-link" href="{{ url_for('main.dashboard') }}">← Back to dashboard</a>
+  <div class="form-card">
+    <p class="eyebrow">{{ 'MAKE AN UPDATE' if task else 'A NEW BEGINNING' }}</p>
+    <h1>{{ 'Edit your task' if task else 'What’s on your mind?' }}</h1>
+    <p class="form-intro">The details help turn a good intention into a doable next step.</p>
+    <form method="post" class="task-form">
+      <label for="title">Task title <span class="required-mark" aria-hidden="true">*</span></label>
+      <input id="title" name="title" type="text" maxlength="120" required autofocus value="{{ task.title if task else '' }}" placeholder="e.g. Share the project proposal">
+      <label for="description">A few details <span class="optional-label">Optional</span></label>
+      <textarea id="description" name="description" maxlength="1000" rows="4" placeholder="Add a note to help you get started...">{{ task.description if task else '' }}</textarea>
+      <div class="form-row">
+        <div><label for="priority">Priority</label><select id="priority" name="priority">{% for value in priorities %}<option value="{{ value }}" {% if (task and task.priority == value) or (not task and value == 'medium') %}selected{% endif %}>{{ value|title }}</option>{% endfor %}</select></div>
+        <div><label for="status">Status</label><select id="status" name="status">{% for value in statuses %}<option value="{{ value }}" {% if (task and task.status == value) or (not task and value == 'pending') %}selected{% endif %}>{{ value|replace('_', ' ')|title }}</option>{% endfor %}</select></div>
+      </div>
+      <label for="due_date">Due date <span class="optional-label">Optional</span></label>
+      <input id="due_date" name="due_date" type="date" value="{{ task.due_date if task and task.due_date else '' }}">
+      <div class="form-actions"><a class="button button-outline" href="{{ url_for('main.dashboard') }}">Cancel</a><button class="button button-primary" type="submit">{{ 'Save changes' if task else 'Create task' }} <span aria-hidden="true">→</span></button></div>
+    </form>
+  </div>
+</section>
+{% endblock %}
